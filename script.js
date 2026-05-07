@@ -1,31 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    // 1. LIVE-UHRZEIT
+    // 1. UHRZEIT
     const updateTime = () => {
         const now = new Date();
-        const time = now.getHours().toString().padStart(2, '0') + ":" + 
-                     now.getMinutes().toString().padStart(2, '0');
-        if(document.getElementById('time')) document.getElementById('time').innerText = time;
-        if(document.getElementById('lock-time')) document.getElementById('lock-time').innerText = time;
-        if(document.getElementById('lock-time-big')) document.getElementById('lock-time-big').innerText = time;
+        const t = now.getHours().toString().padStart(2, '0') + ":" + 
+                  now.getMinutes().toString().padStart(2, '0');
+        ['time', 'lock-time-big'].forEach(id => {
+            if(document.getElementById(id)) document.getElementById(id).innerText = t;
+        });
     };
     setInterval(updateTime, 1000);
     updateTime();
 
-    // 2. ENTSPERREN (PC & HANDY)
-    window.unlockPhone = () => {
-        const lock = document.getElementById('lockscreen');
-        if(lock) {
-            lock.style.transition = "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
-            lock.style.transform = "translateY(-110%)";
-            setTimeout(() => { lock.style.display = "none"; }, 600);
-        }
+    // 2. ENTSPERREN (Fix für Handy & PC)
+    const lockscreen = document.getElementById('lockscreen');
+    const unlock = () => {
+        lockscreen.style.transition = "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+        lockscreen.style.transform = "translateY(-110%)";
+        setTimeout(() => { lockscreen.style.display = "none"; }, 600);
     };
 
-    // 3. APPS LADEN & LOGIK AUSFÜHREN
+    if(lockscreen) {
+        lockscreen.addEventListener('click', unlock);
+        lockscreen.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            unlock();
+        }, {passive: false});
+    }
+
+    // 3. APP ENGINE
     window.openApp = async (app) => {
-        const viewport = document.getElementById('app-viewport');
-        const homeBar = document.getElementById('home-bar');
+        const vp = document.getElementById('app-viewport');
+        const hb = document.getElementById('home-bar');
         
         let path = "";
         switch(app) {
@@ -38,44 +44,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if(path) {
-            viewport.style.display = "block";
-            if(homeBar) homeBar.style.display = "block";
-            
-            try {
-                const response = await fetch(path);
-                const html = await response.text();
-                viewport.innerHTML = html;
+            vp.style.display = "block";
+            hb.style.display = "block";
+            const res = await fetch(path);
+            const html = await res.text();
+            vp.innerHTML = html;
 
-                // Scripte in geladenen Dateien aktivieren
-                const scripts = viewport.querySelectorAll("script");
-                scripts.forEach(oldScript => {
-                    const newScript = document.createElement("script");
-                    if (oldScript.src) {
-                        newScript.src = oldScript.src;
-                    } else {
-                        newScript.text = oldScript.text;
-                    }
-                    document.body.appendChild(newScript).parentNode.removeChild(newScript);
-                });
-            } catch (e) {
-                console.error("App konnte nicht geladen werden", e);
-            }
+            // Scripte in Apps aktivieren
+            const scripts = vp.querySelectorAll("script");
+            scripts.forEach(old => {
+                const n = document.createElement("script");
+                if(old.src) n.src = old.src; else n.text = old.text;
+                document.body.appendChild(n).parentNode.removeChild(n);
+            });
         }
     };
 
-    // 4. APP SCHLIESSEN
     window.closeApp = () => {
         document.getElementById('app-viewport').style.display = "none";
-        const homeBar = document.getElementById('home-bar');
-        if(homeBar) homeBar.style.display = "none";
-    };
-
-    // 5. HANDY-SPERRE (Standby)
-    window.lockPhone = () => {
-        const lock = document.getElementById('lockscreen');
-        if(lock) {
-            lock.style.display = "flex";
-            setTimeout(() => { lock.style.transform = "translateY(0)"; }, 10);
-        }
+        document.getElementById('home-bar').style.display = "none";
     };
 });
