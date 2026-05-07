@@ -1,0 +1,51 @@
+<div class="camera-app">
+    <!-- Das Live-Bild der Kamera -->
+    <div class="camera-screen">
+        <video id="video-feed" autoplay playsinline></video>
+        <div class="camera-overlay">
+            <div class="focus-bracket"></div>
+        </div>
+    </div>
+
+    <!-- Die Steuerung unten -->
+    <div class="camera-bottom-bar">
+        <div class="prev-photo" onclick="openApp('gallery')">
+            <img src="https://picsum.photos/50/50" id="last-shot-preview">
+        </div>
+        
+        <div class="shutter-wrapper">
+            <div class="shutter-btn" onclick="takePicture()"></div>
+        </div>
+        
+        <div class="camera-switch">
+            <span>🔄</span>
+        </div>
+    </div>
+
+    <script>
+        // Kamera beim Starten der App aktivieren
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "user" }, 
+                    audio: false 
+                });
+                const video = document.getElementById('video-feed');
+                video.srcObject = stream;
+            } catch (err) {
+                alert("Kamera-Zugriff verweigert oder nicht verfügbar.");
+            }
+        }
+        
+        initCamera();
+
+        function takePicture() {
+            // Visueller Blitz-Effekt
+            const screen = document.querySelector('.camera-screen');
+            screen.style.backgroundColor = "white";
+            setTimeout(() => screen.style.backgroundColor = "black", 100);
+            
+            console.log("Klick! Foto aufgenommen.");
+        }
+    </script>
+</div>

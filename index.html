@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Simulation 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="phone">
+        <!-- 1. STATUSLEISTE -->
+        <div class="statusbar">
+            <span id="time">18:34</span>
+            <div class="status-right">📶 85% 🔋</div>
+        </div>
+
+        <div class="dynamic-island"></div>
+
+        <!-- 2. SPERRBILDSCHIRM -->
+        <div id="lockscreen" onclick="unlockPhone()">
+            <div class="lock-content">
+                <h1 id="lock-time-big">18:34</h1>
+                <p>Mittwoch, 6. Mai</p>
+                
+                <!-- Notification Center -->
+                <div id="notification-container">
+                    <div class="notification" onclick="event.stopPropagation(); openApp('whatsapp')">
+                        <div class="notif-header">
+                            <div class="notif-app-icon" style="background:#25D366">💬</div>
+                            <span>WHATSAPP</span>
+                            <span class="notif-time">jetzt</span>
+                        </div>
+                        <div class="notif-body">
+                            <strong>Maxim</strong>
+                            <p>Hast du die Spiele schon getestet? 🐍</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lock-msg">Zum Öffnen klicken</div>
+            </div>
+
+            <div class="lock-footer">
+                <div class="quick-btn">🔦</div>
+                <div class="quick-btn">📷</div>
+            </div>
+        </div>
+
+        <!-- 3. HOMESCREEN (App-Grid) -->
+        <div class="homescreen">
+            <div class="app-grid">
+                <div class="app-icon" onclick="openApp('whatsapp')">
+                    <div class="icon-img" style="background:#25D366">💬</div>
+                    <span>WhatsApp</span>
+                </div>
+                <div class="app-icon" onclick="openApp('games')">
+                    <div class="icon-img" style="background:#5856D6">🎮</div>
+                    <span>Spiele</span>
+                </div>
+                <div class="app-icon" onclick="openApp('settings')">
+                    <div class="icon-img" style="background:#8e8e93">⚙️</div>
+                    <span>Settings</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. APP VIEWPORT (Hier laden die Apps rein) -->
+        <div id="app-viewport"></div>
+
+        <!-- 5. DOCK -->
+        <div class="dock">
+            <div class="dock-icon" onclick="openApp('phone')">📞</div>
+            <div class="dock-icon" onclick="openApp('whatsapp')">💬</div>
+            <div class="dock-icon" onclick="openApp('camera')">📷</div>
+            <div class="dock-icon" onclick="openApp('browser')">🌐</div>
+            <div class="dock-icon" onclick="openApp('snake')">🐍</div>
+            <div class="dock-icon" onclick="openApp('tictactoe')">❌</div>
+        </div>
+
+        <!-- Home Bar zum Schließen von Apps -->
+        <div class="home-bar" id="home-bar" onclick="closeApp()"></div>
+    </div>
+
+    <!-- Ladekabel außerhalb des Handys -->
+    <div id="charger" class="cable plugged" onclick="toggleCharge()">
+        <div class="connector"></div>
+        <div class="wire"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

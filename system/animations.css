@@ -1,0 +1,15 @@
+@keyframes appOpen {
+    from { transform: scale(0.5); opacity: 0; filter: blur(10px); }
+    to { transform: scale(1); opacity: 1; filter: blur(0); }
+}
+
+.app-active {
+    animation: appOpen 0.3s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black; /* Oder App-Hintergrundfarbe */
+    z-index: 50;
+}

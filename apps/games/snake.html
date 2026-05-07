@@ -1,0 +1,35 @@
+<div class="app-container" style="background: #000; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <canvas id="snakeCanvas" width="250" height="250" style="border:2px solid #333;"></canvas>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px;">
+        <span></span><button onclick="changeDir(0,-1)" style="width:60px; height:60px; border-radius:50%; background:#444; color:white; border:none;">▲</button><span></span>
+        <button onclick="changeDir(-1,0)" style="width:60px; height:60px; border-radius:50%; background:#444; color:white; border:none;">◀</button>
+        <button onclick="changeDir(0,1)" style="width:60px; height:60px; border-radius:50%; background:#444; color:white; border:none;">▼</button>
+        <button onclick="changeDir(1,0)" style="width:60px; height:60px; border-radius:50%; background:#444; color:white; border:none;">▶</button>
+    </div>
+</div>
+
+<script>
+(function() {
+    const canvas = document.getElementById('snakeCanvas');
+    const ctx = canvas.getContext('2d');
+    let snake = [{x: 10, y: 10}];
+    let food = {x: 5, y: 5};
+    let dx = 0, dy = 0;
+
+    window.changeDir = (x, y) => { dx = x; dy = y; };
+
+    function gameLoop() {
+        ctx.fillStyle = "black"; ctx.fillRect(0,0,250,250);
+        ctx.fillStyle = "red"; ctx.fillRect(food.x*10, food.y*10, 8, 8);
+        ctx.fillStyle = "lime";
+        snake.forEach(p => ctx.fillRect(p.x*10, p.y*10, 8, 8));
+
+        let head = {x: snake[0].x + dx, y: snake[0].y + dy};
+        snake.unshift(head);
+        if(head.x === food.x && head.y === food.y) {
+            food = {x: Math.floor(Math.random()*24), y: Math.floor(Math.random()*24)};
+        } else if(dx !== 0 || dy !== 0) { snake.pop(); }
+    }
+    setInterval(gameLoop, 150);
+})();
+</script>

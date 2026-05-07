@@ -1,0 +1,26 @@
+<div class="app-container" style="background: #1c1c1e; height: 100%; display: flex; flex-direction: column; align-items: center; color: white;">
+    <h3 style="margin-top: 60px;">Tic Tac Toe</h3>
+    <div id="ttt-board" style="display: grid; grid-template-columns: repeat(3, 90px); gap: 10px; margin-top: 40px;">
+        <div onclick="ttt(this)" style="width:90px; height:90px; background:#2c2c2e; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:40px; font-family:sans-serif;"></div>
+        <div onclick="ttt(this)" style="width:90px; height:90px; background:#2c2c2e; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:40px; font-family:sans-serif;"></div>
+        <div onclick="ttt(this)" style="width:90px; height:90px; background:#2c2c2e; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:40px; font-family:sans-serif;"></div>
+        <div onclick="ttt(this)" style="width:90px; height:90px; background:#2c2c2e; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:40px; font-family:sans-serif;"></div>
+        <div onclick="ttt(this)" style="width:90px; height:90px; background:#2c2c2e; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:40px; font-family:sans-serif;"></div>
+        <div onclick="ttt(this)" style="width:90px; height:90px; background:#2c2c2e; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:40px; font-family:sans-serif;"></div>
+        <div onclick="ttt(this)" style="width:90px; height:90px; background:#2c2c2e; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:40px; font-family:sans-serif;"></div>
+        <div onclick="ttt(this)" style="width:90px; height:90px; background:#2c2c2e; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:40px; font-family:sans-serif;"></div>
+        <div onclick="ttt(this)" style="width:90px; height:90px; background:#2c2c2e; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:40px; font-family:sans-serif;"></div>
+    </div>
+    <button onclick="location.reload()" style="margin-top: 40px; padding: 10px 20px; border-radius: 20px; background: #0a84ff; color: white; border: none;">Reset</button>
+</div>
+
+<script>
+    let p = "X";
+    function ttt(el) {
+        if(!el.innerText) {
+            el.innerText = p;
+            el.style.color = p === "X" ? "#0a84ff" : "#ff3b30";
+            p = p === "X" ? "O" : "X";
+        }
+    }
+</script>

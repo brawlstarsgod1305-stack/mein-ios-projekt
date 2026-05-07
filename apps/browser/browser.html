@@ -1,0 +1,23 @@
+<div style="background:#1c1c1e; height:100%; color:white; padding-top:60px; font-family:sans-serif;">
+    <div style="padding:15px;">
+        <input type="text" id="browser-input" placeholder="Suchen oder URL eingeben..." 
+               style="width:100%; padding:12px; border-radius:12px; border:none; background:#3a3a3c; color:white;">
+        <button onclick="runSearch()" 
+                style="width:100%; margin-top:10px; padding:10px; border-radius:10px; background:#0a84ff; color:white; border:none; font-weight:bold;">Suchen</button>
+    </div>
+    <div id="results" style="padding:20px; text-align:center;">
+        <p style="color:#8e8e93;">Favoriten</p>
+        <div style="display:flex; justify-content:space-around; margin-top:20px;">
+            <div onclick="openApp('youtube')" style="cursor:pointer; background:#2c2c2e; padding:15px; border-radius:15px;">🔴 YouTube</div>
+            <div onclick="openApp('tiktok')" style="cursor:pointer; background:#2c2c2e; padding:15px; border-radius:15px;">⚫ TikTok</div>
+        </div>
+    </div>
+</div>
+<script>
+    function runSearch() {
+        const val = document.getElementById('browser-input').value.toLowerCase();
+        if(val.includes("youtube")) openApp('youtube');
+        else if(val.includes("tiktok")) openApp('tiktok');
+        else document.getElementById('results').innerHTML = "<p>Suche nach: " + val + "</p>";
+    }
+</script>

@@ -1,0 +1,546 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow: hidden;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* HANDY GEHÄUSE */
+.phone {
+    width: 375px;
+    height: 812px;
+    background: #222 url('https://picsum.photos/400/800') center/cover;
+    border-radius: 55px;
+    position: relative;
+    box-shadow: 0 0 0 12px #333, 0 20px 80px rgba(0,0,0,0.8);
+    overflow: hidden;
+}
+
+.dynamic-island {
+    width: 125px; height: 35px; background: black;
+    border-radius: 20px; position: absolute;
+    top: 12px; left: 50%; transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.statusbar {
+    position: absolute; top: 18px; width: 100%;
+    display: flex; justify-content: space-between;
+    padding: 0 32px; color: white; z-index: 900;
+    font-size: 14px; font-weight: 600;
+}
+
+/* DOCK MIT GLAS-EFFEKT */
+.dock {
+    position: absolute; bottom: 25px; left: 20px; right: 20px;
+    height: 92px; background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+    border-radius: 35px; display: flex;
+    justify-content: space-around; align-items: center;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.icon-app { font-size: 38px; cursor: pointer; transition: transform 0.2s; }
+.icon-app:hover { transform: scale(1.1); }
+.icon-app:active { transform: scale(0.9); }
+
+/* HOME-BAR */
+.home-bar {
+    position: absolute; bottom: 10px; left: 50%;
+    transform: translateX(-50%); width: 135px; height: 5px;
+    background: rgba(255, 255, 255, 0.9); border-radius: 10px;
+    z-index: 1001; display: none; cursor: pointer;
+}
+
+/* APP VIEWPORT */
+#app-viewport {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: black; display: none; z-index: 800;
+    animation: appSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes appSlideUp {
+    from { transform: translateY(100%); opacity: 0.5; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* KABEL STYLING */
+.cable {
+    margin-top: -10px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    z-index: 5;
+}
+.connector { width: 38px; height: 40px; background: #e0e0e0; border-radius: 6px; margin: 0 auto; border-bottom: 2px solid #bbb; }
+.wire { width: 10px; height: 160px; background: #f0f0f0; margin: 0 auto; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+.cable.plugged { transform: translateY(-48px); }
+
+/* App-Container Design */
+.app-container {
+    height: 100%;
+    width: 100%;
+    background: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Kamera App Styling */
+.camera-app {
+    height: 100%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+}
+
+.camera-screen {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+}
+
+#video-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.camera-bottom-bar {
+    height: 160px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 30px;
+    background: black;
+}
+
+.shutter-btn {
+    width: 72px;
+    height: 72px;
+    background: white;
+    border-radius: 50%;
+    border: 5px solid #333;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.shutter-btn:active {
+    transform: scale(0.9);
+    background: #ccc;
+}
+
+.prev-photo img {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+/* Browser App Styling */
+.browser-app {
+    height: 100%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+}
+
+.browser-header {
+    padding: 60px 15px 10px;
+    background: #1c1c1e;
+}
+
+.url-bar {
+    background: #3a3a3c;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    color: #8e8e93;
+}
+
+#browser-input {
+    background: transparent;
+    border: none;
+    color: white;
+    margin-left: 8px;
+    flex: 1;
+    outline: none;
+    font-size: 14px;
+}
+
+.browser-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.browser-home {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.google-logo {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.favorites {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.fav-item span {
+    font-size: 30px;
+    background: #1c1c1e;
+    padding: 10px;
+    border-radius: 12px;
+    display: block;
+}
+
+.fav-item p {
+    font-size: 11px;
+    margin-top: 5px;
+    color: white;
+}
+
+.browser-footer {
+    height: 80px;
+    background: #1c1c1e;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #0a84ff;
+    font-size: 20px;
+    padding-bottom: 20px;
+}
+.browser-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.web-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.web-icon span {
+    font-size: 12px;
+    color: white;
+}
+
+.browser-content {
+    background: #000;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Browser Grundgerüst */
+.browser-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #000;
+    color: white;
+}
+
+.browser-nav {
+    padding: 50px 15px 10px;
+    background: #1c1c1e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-bar {
+    background: #2c2c2e;
+    flex: 1;
+    border-radius: 10px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+}
+
+#address-input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 14px;
+    margin-left: 10px;
+    width: 100%;
+}
+
+/* Web-Grid Startseite */
+.web-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    padding: 30px;
+}
+
+.web-app {
+    text-align: center;
+    cursor: pointer;
+}
+
+.web-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.yt-red { background: #ff0000; }
+.tt-black { background: #000; border: 1px solid #333; }
+.g-blue { background: #fff; color: #4285F4; }
+
+/* YouTube Interface */
+.yt-header { padding: 15px; font-weight: bold; border-bottom: 1px solid #333; }
+.yt-video {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* TikTok Interface */
+.tt-video-full {
+    height: 100%;
+    background: linear-gradient(to bottom, #222, #000);
+    position: relative;
+}
+
+.tt-sidebar {
+    position: absolute;
+    right: 15px;
+    bottom: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 24px;
+}
+
+.tt-bottom {
+    position: absolute;
+    left: 15px;
+    bottom: 100px;
+}
+
+/* YouTube & TikTok Layouts */
+.youtube-bg { background: #0f0f0f; color: white; }
+.tiktok-bg { background: black; }
+
+.video-player video {
+    width: 100%;
+    background: #000;
+}
+
+.tt-video-wrapper {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.tt-video-wrapper video {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.tt-overlay {
+    position: absolute;
+    bottom: 50px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tt-icon {
+    text-align: center;
+    font-size: 24px;
+    color: white;
+}
+
+.lockscreen {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4); backdrop-filter: blur(15px);
+    z-index: 2000; color: white; display: flex; flex-direction: column;
+    justify-content: space-between; align-items: center; padding: 100px 0;
+}
+.quick-btn {
+    width: 50px; height: 50px; background: rgba(255,255,255,0.2);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+/* Homescreen Layout */
+.homescreen-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 80px 25px; /* Platz für Dynamic Island oben */
+}
+
+.app-icon {
+    text-align: center;
+    cursor: pointer;
+}
+
+.icon-bg {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.app-icon span {
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* Lockscreen Korrektur */
+.lock-header { margin-top: 50px; text-align: center; color: white; }
+#lock-time { font-size: 70px; font-weight: 200; }
+.lock-center { position: absolute; top: 50%; width: 100%; text-align: center; color: rgba(255,255,255,0.7); }
+.lock-footer { 
+    position: absolute; bottom: 50px; width: 100%; 
+    display: flex; justify-content: space-around; padding: 0 30px;
+}
+.quick-btn { 
+    width: 50px; height: 50px; background: rgba(255,255,255,0.15); 
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+    backdrop-filter: blur(10px); color: white;
+}
+
+/* Sperrbildschirm Design */
+#lockscreen {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.2);
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    transition: transform 0.5s ease-in-out;
+}
+
+.lock-content { margin-top: 80px; text-align: center; }
+#lock-time-big { font-size: 64px; font-weight: 200; margin: 0; }
+.lock-msg { margin-top: 150px; opacity: 0.8; animation: pulse 2s infinite; }
+
+/* Homescreen App Grid */
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 100px 20px;
+}
+
+.app-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon-img {
+    width: 55px; height: 55px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; margin-bottom: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.app-icon span { color: white; font-size: 11px; }
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+#notification-container {
+    width: 90%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 12px;
+    color: white;
+    font-size: 13px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    animation: slideIn 0.5s ease-out;
+}
+
+.notif-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.notif-app-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notif-time { margin-left: auto; }
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
