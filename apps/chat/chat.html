@@ -1,58 +1,35 @@
-<div class="app-container" style="background: #0b141a; height: 100%; display: flex; flex-direction: column; color: white; font-family: -apple-system, sans-serif;">
-    <div style="background: #1f2c33; padding: 50px 15px 10px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #2a3942;">
-        <div style="width: 38px; height: 38px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">👤</div>
-        <div style="flex: 1;">
-            <div style="font-weight: bold; font-size: 16px;">Maxim</div>
-            <div style="font-size: 11px; color: #00a884;">online</div>
-        </div>
-        <div style="font-size: 20px;">📞 &nbsp; 📹</div>
+<div style="background: #0b141a; height: 100%; display: flex; flex-direction: column; color: white; font-family: sans-serif;">
+    <div style="background: #1f2c33; padding: 55px 15px 15px; display: flex; align-items: center; gap: 10px;">
+        <div style="width: 35px; height: 35px; background: #555; border-radius: 50%; display: flex; align-items: center; justify-content: center;">👤</div>
+        <div style="flex:1"><strong>Maxim</strong><br><small style="color:#00a884">online</small></div>
     </div>
 
-    <div id="chat-flow" style="flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-size: cover;">
-        </div>
+    <div id="msg-box" style="flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');">
+    </div>
 
-    <div style="background: #1f2c33; padding: 12px; display: flex; gap: 10px; align-items: center; padding-bottom: 30px;">
-        <div style="font-size: 24px; color: #8696a0;">+</div>
-        <input type="text" id="wa-input" placeholder="Nachricht" style="flex: 1; border: none; border-radius: 20px; padding: 10px 15px; background: #2a3942; color: white; outline: none; font-size: 15px;">
-        <button onclick="sendWhatsAppMessage()" style="background: #00a884; border: none; width: 42px; height: 42px; border-radius: 50%; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px;">➔</button>
+    <div style="background: #1f2c33; padding: 15px; display: flex; gap: 10px; padding-bottom: 30px;">
+        <input type="text" id="wa-in" style="flex:1; border-radius:20px; border:none; padding:10px; background:#2a3942; color:white;" placeholder="Nachricht...">
+        <button onclick="sendWA()" style="background:#00a884; border:none; border-radius:50%; width:40px; color:white;">➔</button>
     </div>
 </div>
 
 <script>
 (function() {
-    const flow = document.getElementById('chat-flow');
-    const input = document.getElementById('wa-input');
+    const box = document.getElementById('msg-box');
+    const inp = document.getElementById('wa-in');
 
-    // 1. Nachrichten laden beim Start
-    const saved = localStorage.getItem('chat_history');
-    if(saved) {
-        flow.innerHTML = saved;
-    } else {
-        // Standard-Nachricht wenn leer
-        flow.innerHTML = `<div style="background: #1f2c33; padding: 8px 12px; border-radius: 10px; align-self: flex-start; max-width: 80%; font-size: 14px; box-shadow: 0 1px 1px rgba(0,0,0,0.2);">Hey! Hast du die Spiele schon getestet? 🐍</div>`;
-    }
-    flow.scrollTop = flow.scrollHeight;
-
-    // 2. Senden Funktion
-    window.sendWhatsAppMessage = () => {
-        if(input.value.trim() !== "") {
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const msgHtml = `
-                <div style="background: #005c4b; padding: 8px 12px; border-radius: 10px; align-self: flex-end; max-width: 80%; font-size: 14px; box-shadow: 0 1px 1px rgba(0,0,0,0.2); position: relative;">
-                    ${input.value}
-                    <div style="font-size: 9px; opacity: 0.6; text-align: right; margin-top: 4px;">${time} ✓✓</div>
-                </div>`;
-            
-            flow.innerHTML += msgHtml;
-            input.value = "";
-            flow.scrollTop = flow.scrollHeight;
-            
-            // Speichern
-            localStorage.setItem('chat_history', flow.innerHTML);
-        }
+    const load = () => {
+        box.innerHTML = localStorage.getItem('chat_save') || '<div style="background:#1f2c33; padding:10px; border-radius:10px; align-self:flex-start">Willkommen im Chat!</div>';
+        box.scrollTop = box.scrollHeight;
     };
 
-    // Enter Taste
-    input.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendWhatsAppMessage(); });
+    window.sendWA = () => {
+        if(!inp.value.trim()) return;
+        box.innerHTML += `<div style="background:#005c4b; padding:10px; border-radius:10px; align-self:flex-end; margin-bottom:5px;">${inp.value}</div>`;
+        localStorage.setItem('chat_save', box.innerHTML);
+        inp.value = "";
+        box.scrollTop = box.scrollHeight;
+    };
+    load();
 })();
 </script>
