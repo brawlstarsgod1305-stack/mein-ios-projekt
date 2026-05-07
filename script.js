@@ -49,6 +49,20 @@ window.openApp = async (app) => {
             const newScript = document.createElement("script");
             newScript.text = oldScript.text;
             document.body.appendChild(newScript).parentNode.removeChild(newScript);
+            // Dieser Teil kommt in deine openApp Funktion im script.js
+const html = await response.text();
+viewport.innerHTML = html;
+
+// Fix: Scripte in geladenen HTML-Dateien finden und ausführen
+const scripts = viewport.querySelectorAll("script");
+scripts.forEach(oldScript => {
+    const newScript = document.createElement("script");
+    if (oldScript.src) {
+        newScript.src = oldScript.src;
+    } else {
+        newScript.text = oldScript.text;
+    }
+    document.body.appendChild(newScript).parentNode.removeChild(newScript);
         });
     }
 };
